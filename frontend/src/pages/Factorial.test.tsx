@@ -21,7 +21,7 @@ describe("Factorial Component", () => {
 
   it("renders factorial component correctly", () => {
     renderFactorial();
-    expect(screen.getByText("Faactorial Calculator")).toBeInTheDocument();
+    expect(screen.getByText("Factorial Calculator")).toBeInTheDocument();
     expect(
       screen.getByPlaceholderText("Enter a non-negative number")
     ).toBeInTheDocument();
