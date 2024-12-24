@@ -25,11 +25,32 @@ services:
       - redis
     networks:
       - backend-network
+      - frontend-network
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_FIBONACCI_API_URL=http://localhost:8000
+      - VITE_FACTORIAL_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - frontend-network
 
 networks:
   backend-network:
     name: backend-network
+  frontend-network:
+    name: frontend-network
 
 volumes:
   redis_data:
-  app_logs:
+  app_logs:
