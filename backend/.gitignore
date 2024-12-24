@@ -1,2 +1,5 @@
 /target
 *.json
+data
+logs
+*.log
