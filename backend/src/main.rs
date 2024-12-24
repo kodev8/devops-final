@@ -24,9 +24,7 @@ async fn main() -> std::io::Result<()> {
         // Initialize Redis stores
         let fib_store = Box::new(RedisStore::new(&redis_url, "fib")
             .expect("Failed to create fibonacci Redis store"));
-        let fact_store = Box::new(RedisStore::new(&redis_url, "fact")
-            .expect("Failed to create factorial Redis store"));
-
+        
         let app_state = web::Data::new(AppState {
             fib_store: web::Data::new(Mutex::new(fib_store)),
         });
