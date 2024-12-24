@@ -3,7 +3,7 @@ name: Rust CI
 on:
   push:
     paths:
-      - backend/**
+      - "backend/**"
     branches:
         - main
         - dev  
