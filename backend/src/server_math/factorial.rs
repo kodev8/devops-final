@@ -7,8 +7,8 @@ use num_traits::One;
 fn find_factorial<S: Store>(num: i64, store: &mut S) -> Result<(BigInt, bool), String> {
 
     if num < 0 {
-        panic!("Number must be non-negative");
-        // return Err("Number must be non-negative".to_string());
+        // panic!("Number must be non-negative");
+        return Err("Number must be non-negative".to_string());
     }
 
     // Check if result is in cache
