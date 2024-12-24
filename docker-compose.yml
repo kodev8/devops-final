@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  redis:
+    container_name: redis
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - backend-network
+
+  backend:
+    container_name: backend
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - app_logs:/app/logs
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    networks:
+      - backend-network
+      - frontend-network
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_FIBONACCI_API_URL=http://localhost:8000
+      - VITE_FACTORIAL_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    networks:
+      - frontend-network
+
+networks:
+  backend-network:
+    name: backend-network
+  frontend-network:
+    name: frontend-network
+
+volumes:
+  redis_data:
+  app_logs:
