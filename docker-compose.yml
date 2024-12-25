@@ -13,7 +13,9 @@ services:
 
   backend:
     container_name: backend
-    build: .
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
@@ -53,4 +55,4 @@ networks:
 
 volumes:
   redis_data:
-  app_logs:
+  app_logs:
