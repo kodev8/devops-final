@@ -1,5 +1,5 @@
 FROM rust:1.75 AS builder
-WORKDIR /usr/src/fibonacci-api
+WORKDIR /usr/src/server_devops
 COPY . .
 RUN cargo install --path .
 
