@@ -7,6 +7,7 @@ use std::sync::Mutex;
 mod server_math;
 use server_math::store::RedisStore;
 use server_math::req_resp::{BasicResponse, AppState};
+use server_math::factorial::calc_factorial;
 use server_math::fibonacci::calc_fib;
 
 // In main.rs:
@@ -24,9 +25,12 @@ async fn main() -> std::io::Result<()> {
         // Initialize Redis stores
         let fib_store = Box::new(RedisStore::new(&redis_url, "fib")
             .expect("Failed to create fibonacci Redis store"));
-        
+        let fact_store = Box::new(RedisStore::new(&redis_url, "fact")
+            .expect("Failed to create factorial Redis store"));
+
         let app_state = web::Data::new(AppState {
             fib_store: web::Data::new(Mutex::new(fib_store)),
+            fact_store: web::Data::new(Mutex::new(fact_store)),
         });
 
         App::new()
@@ -34,6 +38,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(app_state)
             .service(health)
             .service(calc_fib)
+            .service(calc_factorial)
             .wrap(Logger::default())
     })
     .bind(("0.0.0.0", 8000))?

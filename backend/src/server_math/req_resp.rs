@@ -26,4 +26,5 @@ pub struct BasicResponse {
 #[derive(Clone)]
 pub struct AppState {
     pub fib_store: web::Data<Mutex<Box<dyn Store + Send>>>,
+    pub fact_store: web::Data<Mutex<Box<dyn Store + Send>>>,
 }
